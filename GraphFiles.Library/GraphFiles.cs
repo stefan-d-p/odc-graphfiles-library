@@ -61,8 +61,19 @@ public class GraphFiles : IGraphFiles
                     opt => opt.MapFrom(src =>
                         src.SharedDateTime.HasValue ? src.SharedDateTime.Value.UtcDateTime : DefaultDatetime));
             cfg.CreateMap<Microsoft.Graph.Models.SpecialFolder, Structures.SpecialFolder>();
+            cfg.CreateMap<Microsoft.Graph.Models.Video, Structures.Video>();
+            cfg.CreateMap<Microsoft.Graph.Models.DriveItem, Structures.DriveItem>()
+                .ForMember(dest => dest.CreatedDateTime,
+                    opt => opt.MapFrom(src =>
+                        src.CreatedDateTime.HasValue 
+                            ? src.CreatedDateTime.Value.UtcDateTime 
+                            : DefaultDatetime))
+                .ForMember(dest => dest.LastModifiedDateTime,
+                    opt => opt.MapFrom(src =>
+                        src.LastModifiedDateTime.HasValue
+                            ? src.LastModifiedDateTime.Value.UtcDateTime
+                            : DefaultDatetime));
             
-
         });
         
         _mapper = mapperConfiguration.CreateMapper();
