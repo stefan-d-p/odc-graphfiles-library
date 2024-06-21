@@ -1,9 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using AutoMapper;
 using Microsoft.Graph;
-using Microsoft.Graph.Models;
-using OutSystems.ExternalLibraries.SDK;
-using Without.Systems.GraphFiles.Structures;
 using Without.Systems.GraphFiles.Util;
 
 namespace Without.Systems.GraphFiles;
@@ -48,6 +45,24 @@ public class GraphFiles : IGraphFiles
             cfg.CreateMap<Microsoft.Graph.Models.GeoCoordinates, Structures.GeoCoordinates>();
             cfg.CreateMap<Microsoft.Graph.Models.Malware, Structures.Malware>();
             cfg.CreateMap<Microsoft.Graph.Models.Package, Structures.Package>();
+            cfg.CreateMap<Microsoft.Graph.Models.ItemReference, Structures.ItemReference>();
+            cfg.CreateMap<Microsoft.Graph.Models.PendingContentUpdate, Structures.PendingContentUpdate>()
+                .ForMember(dest => dest.QueuedDateTime,
+                    opt => opt.MapFrom(src =>
+                        src.QueuedDateTime.HasValue ? src.QueuedDateTime.Value.UtcDateTime : DefaultDatetime));
+            cfg.CreateMap<Microsoft.Graph.Models.PendingOperations, Structures.PendingOperations>();
+            cfg.CreateMap<Microsoft.Graph.Models.Photo, Structures.Photo>()
+                .ForMember(dest => dest.TakenDateTime,
+                    opt => opt.MapFrom(src =>
+                        src.TakenDateTime.HasValue ? src.TakenDateTime.Value.UtcDateTime : DefaultDatetime));
+            cfg.CreateMap<Microsoft.Graph.Models.PublicationFacet, Structures.PublicationFacet>();
+            cfg.CreateMap<Microsoft.Graph.Models.Shared, Structures.Shared>()
+                .ForMember(dest => dest.SharedDateTime,
+                    opt => opt.MapFrom(src =>
+                        src.SharedDateTime.HasValue ? src.SharedDateTime.Value.UtcDateTime : DefaultDatetime));
+            cfg.CreateMap<Microsoft.Graph.Models.SpecialFolder, Structures.SpecialFolder>();
+            
+
         });
         
         _mapper = mapperConfiguration.CreateMapper();
