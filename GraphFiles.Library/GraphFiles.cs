@@ -10,7 +10,7 @@ public class GraphFiles : IGraphFiles
 
     private readonly IMapper _mapper;
     
-    private static HttpClient _httpClient = new();
+    private static readonly HttpClient HttpClient = new();
 
     private static readonly DateTime DefaultDatetime = new DateTime(1900, 1, 1);
 
@@ -112,7 +112,7 @@ public class GraphFiles : IGraphFiles
     
     private GraphServiceClient GetGraphServiceClient(string accessToken)
     {
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        return new GraphServiceClient(_httpClient);
+        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        return new GraphServiceClient(HttpClient);
     }
 }
